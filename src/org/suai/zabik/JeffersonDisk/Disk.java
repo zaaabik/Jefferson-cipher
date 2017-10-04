@@ -1,7 +1,19 @@
 package org.suai.zabik.JeffersonDisk;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
+
+import static java.nio.file.Files.readAllLines;
 
 public class Disk {
     private int diskCount;
@@ -13,6 +25,21 @@ public class Disk {
         for(int i = 0; i < diskCount;++i){
             disks.add(new Vector<>(alphabet));
             Collections.shuffle(disks.get(i));
+        }
+    }
+
+    public Disk(String path,int alphabetLength,int diskCount) throws IOException {
+        disks = new Vector<>();
+        this.diskCount = diskCount;
+        byte[] rawDisks = Files.readAllBytes(Paths.get(path));
+        String allDisks = new String(rawDisks);
+        for(int i = 0; i < diskCount;++i){
+            String subStr = allDisks.substring(i*alphabetLength,(i+1)*alphabetLength);
+            Vector<Character> tmpVec = new Vector<>();
+            for(int j = 0; j < subStr.length();++j){
+                tmpVec.add(subStr.charAt(j));
+            }
+            disks.add(tmpVec);
         }
     }
 
@@ -30,6 +57,15 @@ public class Disk {
     public char getCharacter(int pos, int diskNumber){
         return disks.get(diskNumber).elementAt(pos);
     }
-
-
+    public void writeDisk(String path) throws IOException {
+        BufferedWriter bufferedWriter = Files.newBufferedWriter(Paths.get(path),Charset.forName("US-ASCII"),StandardOpenOption.WRITE);
+        for(Vector<Character> i : disks){
+            StringBuilder sb = new StringBuilder();
+            for(char j : i){
+                sb.append(j);
+            }
+            bufferedWriter.write(sb.toString());
+        }
+        bufferedWriter.close();
+    }
 }
