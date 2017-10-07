@@ -57,9 +57,9 @@ public class JeffersonCypher {
         String res = "";
         try {
             String ciphertext = new String(Files.readAllBytes(Paths.get(path + "ciphertext.txt")), "US-ASCII");
-            Disk encrDisk = new Disk(path,ciphertext.length());
+            Disk encrDisk = new Disk(path, ciphertext.length());
             Key encrKey = new Key(path);
-            res = JeffersonCypher.decrypt(encrDisk,ciphertext,encrKey.getShift());
+            res = JeffersonCypher.decrypt(encrDisk, ciphertext, encrKey.getShift());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class JeffersonCypher {
             String inputText = new String(Files.readAllBytes(Paths.get(path + "in.txt")), "US-ASCII");
             Disk disk = createDisks(inputText.length());
             disk.writeDisk(path);
-            Key key = encrypt(disk,inputText);
+            Key key = encrypt(disk, inputText);
             key.writeCiphertext(path);
             key.writeShift(path);
 

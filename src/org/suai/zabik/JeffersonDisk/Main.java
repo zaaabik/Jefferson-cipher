@@ -12,13 +12,13 @@ public class Main {
         final String defaultFilePath = (System.getProperty("user.dir") + "/");
         //JeffersonCypher.encrypt(defaultFilePath);
         String result = JeffersonCypher.decrypt(defaultFilePath);
-        showRes(defaultFilePath,result);
+        showRes(defaultFilePath, result);
     }
 
-    public static void showRes(String path,String str){
+    public static void showRes(String path, String str) {
         try {
             System.out.println(str);
-            BufferedWriter bufferedWriter = Files.newBufferedWriter(Paths.get(path + "res.txt"), Charset.forName("US-ASCII"), StandardOpenOption.WRITE,StandardOpenOption.CREATE);
+            BufferedWriter bufferedWriter = Files.newBufferedWriter(Paths.get(path + "res.txt"), Charset.forName("US-ASCII"), StandardOpenOption.WRITE, StandardOpenOption.CREATE);
             bufferedWriter.write(str);
             bufferedWriter.close();
         } catch (IOException e) {
