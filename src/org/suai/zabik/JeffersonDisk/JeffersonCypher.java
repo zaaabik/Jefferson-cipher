@@ -1,5 +1,8 @@
 package org.suai.zabik.JeffersonDisk;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Vector;
 
@@ -49,4 +52,36 @@ public class JeffersonCypher {
         }
         return sb.toString();
     }
+
+    public static String decrypt(String path) {
+        String res = "";
+        try {
+            String ciphertext = new String(Files.readAllBytes(Paths.get(path + "ciphertext.txt")), "US-ASCII");
+            Disk encrDisk = new Disk(path,ciphertext.length());
+            Key encrKey = new Key(path);
+            res = JeffersonCypher.decrypt(encrDisk,ciphertext,encrKey.getShift());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public static String encrypt(String path) {
+        String res = "";
+        try {
+            String inputText = new String(Files.readAllBytes(Paths.get(path + "in.txt")), "US-ASCII");
+            Disk disk = createDisks(inputText.length());
+            disk.writeDisk(path);
+            Key key = encrypt(disk,inputText);
+            key.writeCiphertext(path);
+            key.writeShift(path);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+
 }

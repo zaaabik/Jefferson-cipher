@@ -18,7 +18,7 @@ import static java.nio.file.Files.readAllLines;
 public class Disk {
     private int diskCount;
     Vector<Vector<Character>> disks;
-
+    final int alphabetLength = 128;
     public Disk(int diskCount, Vector<Character> alphabet) {
         this.diskCount = diskCount;
         disks = new Vector<>();
@@ -28,7 +28,8 @@ public class Disk {
         }
     }
 
-    public Disk(String path,int alphabetLength,int diskCount) throws IOException {
+    public Disk(String path ,int diskCount) throws IOException {
+        path += "disk.txt";
         disks = new Vector<>();
         this.diskCount = diskCount;
         byte[] rawDisks = Files.readAllBytes(Paths.get(path));
@@ -58,7 +59,8 @@ public class Disk {
         return disks.get(diskNumber).elementAt(pos);
     }
     public void writeDisk(String path) throws IOException {
-        BufferedWriter bufferedWriter = Files.newBufferedWriter(Paths.get(path),Charset.forName("US-ASCII"),StandardOpenOption.WRITE);
+        path += "disk.txt";
+        BufferedWriter bufferedWriter = Files.newBufferedWriter(Paths.get(path),Charset.forName("US-ASCII"),StandardOpenOption.CREATE,StandardOpenOption.TRUNCATE_EXISTING);
         for(Vector<Character> i : disks){
             StringBuilder sb = new StringBuilder();
             for(char j : i){
