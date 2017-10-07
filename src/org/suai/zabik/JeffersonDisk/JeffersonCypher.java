@@ -8,9 +8,9 @@ import java.util.Vector;
 
 public class JeffersonCypher {
     public static Disk createDisks(int diskCount) {
-        final int charactersCount = 128;
+        final int alphabetLength = 128;
         Vector<Character> alphabet = new Vector();
-        for (char i = 0; i < charactersCount; ++i) {
+        for (char i = 0; i < alphabetLength; ++i) {
             alphabet.add(i);
         }
         Disk disk = new Disk(diskCount, alphabet);
@@ -54,23 +54,25 @@ public class JeffersonCypher {
     }
 
     public static String decrypt(String path) {
-        String res = "";
+        String decryptedText = "";
+        final String cipherTextFileName = "ciphertext.txt";
         try {
-            String ciphertext = new String(Files.readAllBytes(Paths.get(path + "ciphertext.txt")), "US-ASCII");
-            Disk encrDisk = new Disk(path, ciphertext.length());
-            Key encrKey = new Key(path);
-            res = JeffersonCypher.decrypt(encrDisk, ciphertext, encrKey.getShift());
+            String ciphertext = new String(Files.readAllBytes(Paths.get(path + cipherTextFileName)), "US-ASCII");
+            Disk encryptDisk = new Disk(path, ciphertext.length());
+            Key encryptKey = new Key(path);
+            decryptedText = JeffersonCypher.decrypt(encryptDisk, ciphertext, encryptKey.getShift());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return res;
+        return decryptedText;
     }
 
     public static String encrypt(String path) {
         String res = "";
+        final String inputFileName = "in.txt";
         try {
-            String inputText = new String(Files.readAllBytes(Paths.get(path + "in.txt")), "US-ASCII");
+            String inputText = new String(Files.readAllBytes(Paths.get(path + inputFileName)), "US-ASCII");
             Disk disk = createDisks(inputText.length());
             disk.writeDisk(path);
             Key key = encrypt(disk, inputText);
