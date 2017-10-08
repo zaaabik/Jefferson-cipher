@@ -1,23 +1,17 @@
 package org.suai.zabik.JeffersonDisk;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
-
-import static java.nio.file.Files.readAllLines;
 
 public class Disk {
     private int diskCount;
-    Vector<Vector<Character>> disks;
+    private Vector<Vector<Character>> disks;
     final int alphabetLength = 128;
 
     public Disk(int diskCount, Vector<Character> alphabet) {
